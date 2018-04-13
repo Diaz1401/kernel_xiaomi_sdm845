@@ -4157,7 +4157,17 @@ static const struct alg_test_desc alg_test_descs[] = {
 				}
 			}
 		}
-	}
+	}, {
+		.alg = "zbewalgo",
+		.test = alg_test_comp,
+		.fips_allowed = 1,
+		.suite = {
+			.comp = {
+				.comp = __VECS(zbewalgo_comp_tv_template),
+				.decomp = __VECS(zbewalgo_decomp_tv_template)
+			}
+		}
+ 	}
 };
 
 static bool alg_test_descs_checked;
