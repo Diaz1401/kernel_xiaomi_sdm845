@@ -1,0 +1,13 @@
+kind: pipeline
+name: Kernel Compile
+clone:
+  depth: 10
+steps:
+ - name: Compile
+   image: diazaji/python:kernel
+   environment:
+     TELEGRAM_TOKEN:
+       from_secret: TELEGRAM_TOKEN
+   commands:
+      - cd /drone/src
+      - bash build.sh 12
