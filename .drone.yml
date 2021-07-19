@@ -9,6 +9,5 @@ steps:
      TELEGRAM_TOKEN:
        from_secret: TELEGRAM_TOKEN
    commands:
-      - apt update -y && apt upgrade -y
       - cd /drone/src
-      - bash build.sh 9
+      - bash build.sh 10
