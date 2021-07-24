@@ -10,4 +10,4 @@ steps:
        from_secret: TELEGRAM_TOKEN
    commands:
       - cd /drone/src
-      - bash build.sh 10
+      - bash build.sh 12
