@@ -14466,7 +14466,7 @@ static int hdd_driver_load(void)
 	errno = pld_init();
 	if (errno) {
 		hdd_fln("Failed to init PLD; errno:%d", errno);
-		goto param_destroy;
+		goto wakelock_destroy;
 	}
 
 	errno = wlan_hdd_register_driver();
