@@ -3719,26 +3719,6 @@ bail:
 	return err;
 }
 
-static int fastrpc_get_dsp_info(struct fastrpc_ioctl_dsp_capabilities *dsp_cap,
-				void *param, struct fastrpc_file *fl)
-{
-	int err = 0;
-
-	K_COPY_FROM_USER(err, 0, dsp_cap, param,
-			sizeof(struct fastrpc_ioctl_dsp_capabilities));
-	VERIFY(err, dsp_cap->domain < NUM_CHANNELS);
-	if (err)
-		goto bail;
-
-	err = fastrpc_get_info_from_kernel(dsp_cap, fl);
-	if (err)
-		goto bail;
-	K_COPY_TO_USER(err, 0, param, dsp_cap,
-			sizeof(struct fastrpc_ioctl_dsp_capabilities));
-bail:
-	return err;
-}
-
 static long fastrpc_device_ioctl(struct file *file, unsigned int ioctl_num,
 				 unsigned long ioctl_param)
 {
