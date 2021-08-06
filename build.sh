@@ -9,7 +9,8 @@ KERNEL_DIR="$CURRENT_DIR"
 AK_REPO="https://github.com/Diaz1401/AnyKernel3"
 AK_DIR="$HOME/AnyKernel3"
 TC_DIR="$HOME"
-LOG="$HOME/log.txt"
+LOG="$HOME/log/log.txt"
+LOG_DIR="$HOME/log/*"
 KERNEL_IMG="$KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb"
 TG_CHAT_ID="-1001180467256"
 TG_BOT_TOKEN="$TELEGRAM_TOKEN"
@@ -56,7 +57,7 @@ tg_pushzip() {
 #
 # tg_log - uploads build log to telegram
 tg_log() {
-    curl -F document=@"$LOG"  "https://api.telegram.org/bot$TG_BOT_TOKEN/sendDocument" \
+    curl -F document=@"$LOG_DIR"  "https://api.telegram.org/bot$TG_BOT_TOKEN/sendDocument" \
         -F chat_id=$TG_CHAT_ID \
         -F parse_mode=html &> /dev/null
 }
@@ -72,7 +73,7 @@ build_setup() {
 #
 # build_config - builds .config file for device.
 build_config() {
-	make O=out beryllium_defconfig -j$(nproc --all)
+	make O=out kucing_defconfig -j$(nproc --all)
 }
 
 #
@@ -96,6 +97,7 @@ build_end() {
 
 	if ! [ -a "$KERNEL_IMG" ]; then
         echo -e "\n> Build failed, sed"
+	mv $LOG $HOME/log/failed.txt
         tg_log
         exit 1
     fi
@@ -110,7 +112,8 @@ build_end() {
 
 	echo -e "\n> Sent zip and log through Telegram."
 	tg_pushzip "$ZIP_NAME" "Time taken: <code>$((DIFF / 60))m $((DIFF % 60))s</code>"
-	sleep 10
+	sleep 5
+	mv $LOG $HOME/log/success.txt
 	tg_log
 }
 
